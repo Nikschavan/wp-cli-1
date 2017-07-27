@@ -88,15 +88,3 @@ function wp_cli_admin_link() {
 	$wp_admin_bar->add_menu( array( 'id' => 'wp_cli_link', 'title' => __( 'WP CLI', 'wp-cli' ), 'href' => '#' ) );
 }
 add_action( 'admin_bar_menu', 'wp_cli_admin_link', 1000 );
-
-/**
- * Add WP CLI file
- */
-function wp_cli_activation(){
-	$destination = shell_exec('cd');
-	$source      = str_replace( "/", "\\", WP_CLI_DIR) .'wp-cli.phar';
-
-	$cmd = 'copy ' . $source .' '.$destination;
-	shell_exec($cmd);
-}
-register_activation_hook( __FILE__, 'wp_cli_activation' );
