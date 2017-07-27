@@ -54,9 +54,16 @@ function get_cmd_result_callback() {
 	);
 	$cmd = $_POST['cmd'];
 	if( 0 == strpos( $cmd, 'wp ' ) ) {
-		$cmd = str_replace('wp', 'php wp-cli.phar', $cmd);
+		$cmd = str_replace('wp ', 'php ' . WP_CLI_DIR . 'wp-cli.phar ', $cmd);
 	}
-	$output = shell_exec( $cmd );
+
+	$cmd = stripslashes_deep( $cmd );
+
+	if ( function_exists( 'shell_exec' ) ) {
+		$output = shell_exec( $cmd );
+	} else {
+		$output = 'shell_exec not available';
+	}
 	
 	if( ! empty($output ) ) {
 		$response['status'] = true;
